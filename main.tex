@@ -183,7 +183,7 @@ Only other programming languages mentioned: C++ (frequently) and Java (2 times).
 
 \vspace{1 cm}
 \begin{center}
-\uncover<2->{\textcolor{darkblue}{From here, it could continue to rise in prominence \\ or end up passing as a fad. This is a critical time.}}
+\uncover<2->{\textcolor{darkblue}{From here, it could continue to rise in prominence \\ or end up passing as a fad. {\it This is a critical time.}}}
 \end{center}
 \end{frame}
 
@@ -199,7 +199,7 @@ Only other programming languages mentioned: C++ (frequently) and Java (2 times).
 \end{itemize}
 
 \vspace{0.5 cm}
-\uncover<4->{There is a {\it gradual path} from brainstorming to optimized code.}
+\uncover<4->{There is a {\it gradual path} from brainstorming to optimized code, not a rewrite.}
 \end{frame}
 
 \begin{frame}{However\ldots}
@@ -235,6 +235,12 @@ Preparing a complete stack of HEP tools in Julia will help adoption, but it will
 \LARGE
 \begin{center}
 \textcolor{darkblue}{We need to give users {\it short-term reasons} to add Julia \\ as a second or third language in their analysis work.}
+\end{center}
+
+\vspace{1 cm}
+\large
+\begin{center}
+\uncover<2->{(``You'll be able to replace all your Python and C++'' is a long-term reason.)}
 \end{center}
 \end{frame}
 
@@ -316,6 +322,26 @@ We might need to reconsider this if we need to enable \mintinline{c++}{RDataFram
 \end{itemize}
 \end{frame}
 
+\begin{frame}{\mbox{ }}
+\vspace{1 cm}
+\LARGE
+\begin{center}
+\textcolor{darkblue}{This also opens the door to UnROOT.jl becoming a drop-in replacement for Uproot in Python workflows.}
+\end{center}
+
+\vspace{1 cm}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{backends-usage-patterns-3.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}{Discussed at PyHEP.dev}
+\vspace{0.35 cm}
+\begin{center}
+\includegraphics[width=\linewidth]{instead-of-uproot-cpp.png}
+\end{center}
+\end{frame}
+
 \begin{frame}{Technical benefits of AwkwardArray.jl over Python}
 \large
 \vspace{0.3 cm}
@@ -372,9 +398,39 @@ array2 = AwkwardArray.from_iter(vector)
 \includegraphics[width=\linewidth]{ianna-lightning-talk.png}
 \end{frame}
 
+\begin{frame}{\mbox{ }}
+\vspace{0.5 cm}
+\LARGE
+\begin{center}
+\textcolor{darkblue}{Open question: how does package management \\ work in a Python + Julia environment?}
+\end{center}
 
+\vspace{1 cm}
+\begin{center}
+\uncover<2->{\textcolor{darkblue}{Is there a way to control PyCall/PyJulia's \\ cross-language dependencies with conda?}}
+\end{center}
+\end{frame}
 
+\begin{frame}{Conclusions}
+\vspace{0.5 cm}
+\LARGE
+\begin{center}
+\textcolor{darkblue}{We need stronger connections between HEP analysis tools in Python and HEP analysis tools in Julia.}
+\end{center}
 
+\large
+\vspace{0.5 cm}
+\begin{itemize}\setlength{\itemsep}{0.2 cm}
+\item StatsBase.Histogram/FHist.jl generalization that is interchangeable with scikit-hep/boost-histogram, scikit-hep/hist?
+\item LorentzVectors.jl or LorentzVectorHEP.jl: interop with scikit-hep/vector?
+\item Corpuscles.jl: share data with scikit-hep/particle?
+\item IMinuit.jl $\surd$
+\item zfit, pyhf, cabinetry, etc.?
+\end{itemize}
 
+\normalsize
+\vspace{0.5 cm}
+\textcolor{darkblue}{Encourage Python users to use Julia {\it with} their Python code! (They won't, otherwise.)}
+\end{frame}
 
 \end{document}
