@@ -314,8 +314,65 @@ We might need to reconsider this if we need to enable \mintinline{c++}{RDataFram
 
 \item In Julia, Awkward Arrays may be passed to other libraries as an opaque \mintinline{julia}{Any}, \mintinline{julia}{AbstractArray}, or a transparent \mintinline{julia}{AwkwardArray.Content}.
 \end{itemize}
-
 \end{frame}
+
+\begin{frame}{Technical benefits of AwkwardArray.jl over Python}
+\large
+\vspace{0.3 cm}
+\begin{columns}
+\column{1.05\linewidth}
+
+\begin{description}\setlength{\itemsep}{0.5 cm}
+\item<1->[\bf Composability:] All buffers in a \mintinline{julia}{AwkwardArray.Content} tree are \mintinline{julia}{AbstractVector}, so it should be easy to swap in special features, like GPU-resident arrays, autodiff, units, etc.
+
+\vspace{0.25 cm}
+\uncover<2->{\normalsize In Python, our ``nplike'' backends are complicated by the fact that we have to use array-oriented functions, which is a larger API, and not exactly the same among NumPy, CuPy, JAX, etc. Each new backend needs a shim.}
+
+\item<3->[\bf Unification:] Since \mintinline{julia}{push!} and \mintinline{julia}{append!} are implemented on \mintinline{julia}{AbstractVector}, the functionality of \mintinline{python}{LayoutBuilder} (append-only array) and \mintinline{python}{ak.Array} (read-only array) are unified in the same object.
+
+\vspace{0.25 cm}
+\uncover<4->{\normalsize In Python, these need to be two different objects because \mintinline{python}{LayoutBuilder} is only useful in Numba/C++, where arrays are view-only.}
+\end{description}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Some examples}
+\small
+\vspace{0.25 cm}
+\begin{minted}{julia}
+using AwkwardArray
+using AwkwardArray: Index64, ListOffsetArray, PrimitiveArray
+
+array = ListOffsetArray{Index64,PrimitiveArray{Float64}}()
+push!(array, [1.1, 2.2, 3.3])
+push!(array, [4.4])
+append!(array, [[5.5, 6.6], [7.7, 8.8, 9.9]])
+
+total = 0.0
+for list in array
+    for item in list
+        total += item
+    end
+end
+
+vector::Vector{Vector{Float64}} = AwkwardArray.to_vector(array)
+array2 = AwkwardArray.from_iter(vector)
+\end{minted}
+\end{frame}
+
+\begin{frame}{Needs to be connected to Python and ``play well'' with Julia}
+\vspace{0.1 cm}
+\begin{center}
+\includegraphics[width=0.85\linewidth]{issue-5.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Don't miss Yana's talk!}
+\vspace{0.5 cm}
+\includegraphics[width=\linewidth]{ianna-lightning-talk.png}
+\end{frame}
+
+
 
 
 
