@@ -183,7 +183,7 @@ Only other programming languages mentioned: C++ (frequently) and Java (2 times).
 
 \vspace{1 cm}
 \begin{center}
-\uncover<2->{\textcolor{darkblue}{From here, it could continue to rise in prominence \\ or end up passing as a fad. {\it This is a critical time.}}}
+\uncover<2->{\textcolor{darkblue}{From here, it could continue to rise in prominence \\ or end up passing as a fad. \underline{\it This is a critical time.}}}
 \end{center}
 \end{frame}
 
@@ -386,7 +386,7 @@ array2 = AwkwardArray.from_iter(vector)
 \end{minted}
 \end{frame}
 
-\begin{frame}{Needs to be connected to Python and ``play well'' with Julia}
+\begin{frame}{Still needs to be connected to Python and ``play well'' with Julia}
 \vspace{0.1 cm}
 \begin{center}
 \includegraphics[width=0.82\linewidth]{issue-5.png}
@@ -412,25 +412,29 @@ array2 = AwkwardArray.from_iter(vector)
 \end{frame}
 
 \begin{frame}{Conclusions}
-\vspace{0.5 cm}
+\vspace{0.25 cm}
 \LARGE
 \begin{center}
 \textcolor{darkblue}{We need stronger connections between HEP analysis tools in Python and HEP analysis tools in Julia.}
 \end{center}
 
 \large
-\vspace{0.5 cm}
+\vspace{0.35 cm}
 \begin{itemize}\setlength{\itemsep}{0.2 cm}
 \item StatsBase.Histogram/FHist.jl generalization that is interchangeable with scikit-hep/boost-histogram, scikit-hep/hist?
 \item LorentzVectors.jl or LorentzVectorHEP.jl: interop with scikit-hep/vector?
 \item Corpuscles.jl: share data with scikit-hep/particle?
 \item IMinuit.jl $\surd$
-\item zfit, pyhf, cabinetry, etc.?
+\item zfit, pyhf, cabinetry, Coffea, etc.?
 \end{itemize}
 
-\normalsize
-\vspace{0.5 cm}
-\textcolor{darkblue}{Encourage Python users to use Julia {\it with} their Python code! (They won't, otherwise.)}
+\Large
+\vspace{0.3 cm}
+\begin{center}
+\textcolor{darkblue}{Encourage Python users to use Julia {\it with} their Python/C++ code!}
+
+\large (Otherwise, they won't use it at all.)
+\end{center}
 \end{frame}
 
 \end{document}
