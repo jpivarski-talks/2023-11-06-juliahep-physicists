@@ -193,7 +193,7 @@ Only other programming languages mentioned: C++ (frequently) and Java (2 times).
 \textcolor{darkblue}{\Large As we've seen, Julia is a perfect fit for HEP, technologically.}
 
 \vspace{0.5 cm}
-\begin{itemize}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
 \item<2-> It allows for an exploratory phase, in which the data analyst focuses on {\it what} to compute, rather than how it will be accelerated.
 \item<3-> It allows the exploratory code to be tweaked to scale up to large datasets.
 \end{itemize}
@@ -243,16 +243,80 @@ Preparing a complete stack of HEP tools in Julia will help adoption, but it will
 \only<1>{\includegraphics[width=\linewidth]{awkward-array-website.png}}\only<2>{\includegraphics[width=\linewidth]{awkward-array-jl-website.png}}
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{This is what I was proposing in 2021}
+\vspace{0.1 cm}
+\begin{center}
+\includegraphics[width=0.88\linewidth]{juliahep-mini-workshop-2021.png}
+\end{center}
+\end{frame}
+
+\begin{frame}{Awkward Array has other JIT-compiled backends}
+\vspace{0.5 cm}
+\large
+\begin{itemize}\setlength{\itemsep}{0.5 cm}
+\item<1-> Numba: \mintinline{python}{ak.Array}s can be arguments and return values of \mintinline{python}{@nb.njit}-compiled functions.
+\item<2-> Numba-CUDA: \mintinline{python}{@nb.cuda.njit([extensions=ak.numba.cuda])}.
+\item<3-> ROOT RDataFrame: \mintinline{python}{ak.to_rdataframe}/\mintinline{python}{ak.from_rdataframe}.
+\item<4-> cppyy: \mintinline{python}{ak.Array}s can be arguments and return values of functions defined by \mintinline{python}{cppyy.cppdef} (pass \mintinline{python}{ak.Array.cpp_type} as its C++ type).
+\item<5-> And now Julia.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{But AwkwardArray.jl isn't like the other backends}
+\large
+\vspace{0.3 cm}
+In both Numba and C++, we define
+
+\vspace{0.25 cm}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item<1-> a Python \mintinline{python}{Lookup} object to hold a reference to the \mintinline{python}{ak.Array}, preventing it from going out of scope, and to present its tree-navigation metadata in a raw-byte format, and
+\item<1-> a Numba or C++ \mintinline{python}{ArrayView} object that points to a position in the structure, JIT-compiled to behave differently for each tree-node type.
+\item<2-> \textcolor{darkblue}{Numba and C++ do not own the array!}
+\end{itemize}
+
+\vspace{0.5 cm}
+\uncover<3->{In Julia, we define}
+
+\vspace{0.25 cm}
+\begin{itemize}\setlength{\itemsep}{0.25 cm}
+\item<3-> the whole layout tree in native Julia structures.
+\item<4-> \textcolor{darkblue}{Julia can own the array!}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Python and Julia Awkward Arrays are symmetric, others are not}
+\vspace{0.3 cm}
+
+\begin{center}
+\includegraphics[width=0.9\linewidth]{backends-usage-patterns.pdf}
+\end{center}
+
+\vspace{0.1 cm}
+\begin{center}
+\includegraphics[width=0.9\linewidth]{backends-usage-patterns-2.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}{Rationales}
+\large
+\vspace{0.3 cm}
+
+\begin{itemize}\setlength{\itemsep}{0.5 cm}
+\item In Numba, especially Numba-CUDA, only unowned views make sense.
+
+Control {\it will} return to Python.
+
+\item In RDataFrames created from Python, control will return to Python.
+
+We might need to reconsider this if we need to enable \mintinline{c++}{RDataFrame::Snapshot} or distributed RDataFrames.
+
+\item Views make sense for cppyy functions that will deconstruct the \mintinline{python}{ak.Array} before sending it on to other C++ libraries. If Awkward Arrays are to have a life in C++ beyond cppyy, they'll need to be reimplemented as in Julia.
+
+\item In Julia, Awkward Arrays may be passed to other libraries as an opaque \mintinline{julia}{Any}, \mintinline{julia}{AbstractArray}, or a transparent \mintinline{julia}{AwkwardArray.Content}.
+\end{itemize}
 
 \end{frame}
 
-%% \begin{frame}{This is what I was proposing in 2021}
-%% \vspace{0.1 cm}
-%% \begin{center}
-%% \includegraphics[width=0.88\linewidth]{juliahep-mini-workshop-2021.png}
-%% \end{center}
-%% \end{frame}
 
 
 
