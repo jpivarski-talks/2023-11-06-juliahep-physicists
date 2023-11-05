@@ -168,7 +168,7 @@ Only other programming languages mentioned: C++ (frequently) and Java (2 times).
 \end{frame}
 
 \begin{frame}{And, it's the only language-based HSF group other than PyHEP}
-\vspace{0.15 cm}
+\vspace{0.05 cm}
 \begin{center}
 \includegraphics[width=0.72\linewidth]{juliahep-website.png}
 \end{center}
@@ -271,7 +271,7 @@ In both Numba and C++, we define
 \begin{itemize}\setlength{\itemsep}{0.25 cm}
 \item<1-> a Python \mintinline{python}{Lookup} object to hold a reference to the \mintinline{python}{ak.Array}, preventing it from going out of scope, and to present its tree-navigation metadata in a raw-byte format, and
 \item<1-> a Numba or C++ \mintinline{python}{ArrayView} object that points to a position in the structure, JIT-compiled to behave differently for each tree-node type.
-\item<2-> \textcolor{darkblue}{Numba and C++ do not own the array!}
+\item<2-> \textcolor{darkblue}{Numba and C++ do not own the array! It's a borrowed reference!}
 \end{itemize}
 
 \vspace{0.5 cm}
@@ -279,7 +279,7 @@ In both Numba and C++, we define
 
 \vspace{0.25 cm}
 \begin{itemize}\setlength{\itemsep}{0.25 cm}
-\item<3-> the whole layout tree in native Julia structures.
+\item<3-> the whole layout tree in native Julia structures, and convert.
 \item<4-> \textcolor{darkblue}{Julia can own the array!}
 \end{itemize}
 \end{frame}
@@ -336,7 +336,7 @@ We might need to reconsider this if we need to enable \mintinline{c++}{RDataFram
 \end{columns}
 \end{frame}
 
-\begin{frame}[fragile]{Some examples}
+\begin{frame}[fragile]{Some examples of AwkwardArray.jl}
 \small
 \vspace{0.25 cm}
 \begin{minted}{julia}
@@ -363,7 +363,7 @@ array2 = AwkwardArray.from_iter(vector)
 \begin{frame}{Needs to be connected to Python and ``play well'' with Julia}
 \vspace{0.1 cm}
 \begin{center}
-\includegraphics[width=0.85\linewidth]{issue-5.png}
+\includegraphics[width=0.82\linewidth]{issue-5.png}
 \end{center}
 \end{frame}
 
